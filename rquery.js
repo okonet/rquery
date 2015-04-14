@@ -119,7 +119,11 @@
         context.filterScope(function (component) {
           if (TestUtils.isDOMComponent(component)
               && component.props.className) {
-            var classes = component.props.className.split(' ');
+            var className = component.props.className;
+            // Support for chainable API of bem-cn https://github.com/albburtsev/bem-cn/
+            className = (typeof className === 'function' &&
+                          typeof className.toString === 'function') ? className.toString() : className;
+            var classes = className.split(' ');
             return classes.indexOf(match[1]) !== -1;
           }
 
